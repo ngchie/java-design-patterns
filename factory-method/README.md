@@ -5,8 +5,7 @@ folder: factory-method
 permalink: /patterns/factory-method/
 categories: Creational
 tags:
- - Java
- - Difficulty-Beginner
+ - Extensibility
  - Gang Of Four
 ---
 
@@ -56,11 +55,14 @@ public class OrcBlacksmith implements Blacksmith {
 Now as the customers come the correct type of blacksmith is summoned and requested weapons are manufactured
 
 ```java
-Blacksmith blacksmith = new ElfBlacksmith();
+var blacksmith = new ElfBlacksmith();
 blacksmith.manufactureWeapon(WeaponType.SPEAR);
 blacksmith.manufactureWeapon(WeaponType.AXE);
 // Elvish weapons are created
 ```
+
+## Class diagram
+![alt text](./etc/factory-method.urm.png "Factory Method pattern class diagram")
 
 ## Applicability
 Use the Factory Method pattern when

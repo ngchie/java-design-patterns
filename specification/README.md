@@ -5,9 +5,7 @@ folder: specification
 permalink: /patterns/specification/
 categories: Behavioral
 tags:
- - Java
- - Difficulty-Beginner
- - Searching
+ - Data access
 ---
 
 ## Also known as
@@ -18,14 +16,6 @@ Specification pattern separates the statement of how to match a
 candidate, from the candidate object that it is matched against. As well as its
 usefulness in selection, it is also valuable for validation and for building to
 order.
-
-![alt text](./etc/specification.png "Specification")
-
-## Applicability
-Use the Specification pattern when
-
-* You need to select a subset of objects based on some criteria, and to refresh the selection at various times.
-* You need to check that only suitable objects are used for a certain role (validation).
 
 ## Explanation
 
@@ -110,24 +100,24 @@ public class MassGreaterThanSelector extends AbstractSelector<Creature> {
 With these building blocks in place, we can perform a search for red creatures as follows:
 
 ```java
-    List<Creature> redCreatures = creatures.stream().filter(new ColorSelector(Color.RED))
+    var redCreatures = creatures.stream().filter(new ColorSelector(Color.RED))
       .collect(Collectors.toList());
 ```
 
 But we could also use our parameterized selector like this:
 
 ```java
-    List<Creature> heavyCreatures = creatures.stream().filter(new MassGreaterThanSelector(500.0)
+    var heavyCreatures = creatures.stream().filter(new MassGreaterThanSelector(500.0)
       .collect(Collectors.toList());
 ```
 
 Our third option is to combine multiple selectors together. Performing a search for special creatures (defined as red, flying, and not small) could be done as follows:
 
 ```java
-    AbstractSelector specialCreaturesSelector = 
+    var specialCreaturesSelector = 
       new ColorSelector(Color.RED).and(new MovementSelector(Movement.FLYING)).and(new SizeSelector(Size.SMALL).not());
 
-    List<Creature> specialCreatures = creatures.stream().filter(specialCreaturesSelector)
+    var specialCreatures = creatures.stream().filter(specialCreaturesSelector)
       .collect(Collectors.toList());
 ```
 
@@ -189,6 +179,15 @@ Instead, we just create an instance of ``AbstractSelector`` "on the spot", using
 | Parameterized Specification | Selection criteria are a large range of values (e.g. mass, speed,...) | + Some flexibility | - Still requires special-purpose classes |
 | Composite Specification | There are a lot of selection criteria that can be combined in multiple ways, hence it is not feasible to create a class for each selector | + Very flexible, without requiring many specialized classes | - Somewhat more difficult to comprehend |
 | | | + Supports logical operations | - You still need to create the base classes used as leaves |
+
+## Class diagram
+![alt text](./etc/specification.png "Specification")
+
+## Applicability
+Use the Specification pattern when
+
+* You need to select a subset of objects based on some criteria, and to refresh the selection at various times.
+* You need to check that only suitable objects are used for a certain role (validation).
 
 ## Related patterns
 
